@@ -51,6 +51,12 @@ const docTemplate = `{
                         "description": "smth",
                         "name": "search",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "Authorization",
+                        "in": "header"
                     }
                 ],
                 "responses": {
@@ -98,6 +104,12 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/models.UpdateArticleModel"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "Authorization",
+                        "in": "header"
                     }
                 ],
                 "responses": {
@@ -148,6 +160,12 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/models.CreateArticleModel"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "Authorization",
+                        "in": "header"
                     }
                 ],
                 "responses": {
@@ -198,6 +216,12 @@ const docTemplate = `{
                         "name": "id",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "Authorization",
+                        "in": "header"
                     }
                 ],
                 "responses": {
@@ -246,6 +270,12 @@ const docTemplate = `{
                         "name": "id",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "Authorization",
+                        "in": "header"
                     }
                 ],
                 "responses": {
@@ -261,144 +291,6 @@ const docTemplate = `{
                                     "properties": {
                                         "data": {
                                             "$ref": "#/definitions/models.PackedArticleModel"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.JSONErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/author": {
-            "get": {
-                "description": "get author",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "authors"
-                ],
-                "summary": "List author",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/models.JSONResponse"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/definitions/models.Author"
-                                            }
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "create a new author",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "authors"
-                ],
-                "summary": "Create author",
-                "parameters": [
-                    {
-                        "description": "author body",
-                        "name": "author",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.CreateAuthorModel"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/models.JSONResponse"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/models.Author"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.JSONErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/author/{id}": {
-            "get": {
-                "description": "get an author by id",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "authors"
-                ],
-                "summary": "get author by id",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Author ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/models.JSONResponse"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/models.Author"
                                         }
                                     }
                                 }
@@ -483,20 +375,6 @@ const docTemplate = `{
                 },
                 "title": {
                     "type": "string"
-                }
-            }
-        },
-        "models.CreateAuthorModel": {
-            "type": "object",
-            "required": [
-                "fullname"
-            ],
-            "properties": {
-                "fullname": {
-                    "type": "string",
-                    "maxLength": 255,
-                    "minLength": 2,
-                    "example": "John Doe"
                 }
             }
         },

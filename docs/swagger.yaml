@@ -47,16 +47,6 @@ definitions:
     - body
     - title
     type: object
-  models.CreateAuthorModel:
-    properties:
-      fullname:
-        example: John Doe
-        maxLength: 255
-        minLength: 2
-        type: string
-    required:
-    - fullname
-    type: object
   models.JSONErrorResponse:
     properties:
       error:
@@ -125,6 +115,10 @@ paths:
         in: query
         name: search
         type: string
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
       produces:
       - application/json
       responses:
@@ -153,6 +147,10 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/models.CreateArticleModel'
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
       produces:
       - application/json
       responses:
@@ -183,6 +181,10 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/models.UpdateArticleModel'
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
       produces:
       - application/json
       responses:
@@ -213,6 +215,10 @@ paths:
         name: id
         required: true
         type: string
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
       produces:
       - application/json
       responses:
@@ -242,6 +248,10 @@ paths:
         name: id
         required: true
         type: string
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
       produces:
       - application/json
       responses:
@@ -261,86 +271,4 @@ paths:
       summary: get article by id
       tags:
       - articles
-  /v1/author:
-    get:
-      consumes:
-      - application/json
-      description: get author
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/models.JSONResponse'
-            - properties:
-                data:
-                  items:
-                    $ref: '#/definitions/models.Author'
-                  type: array
-              type: object
-      summary: List author
-      tags:
-      - authors
-    post:
-      consumes:
-      - application/json
-      description: create a new author
-      parameters:
-      - description: author body
-        in: body
-        name: author
-        required: true
-        schema:
-          $ref: '#/definitions/models.CreateAuthorModel'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            allOf:
-            - $ref: '#/definitions/models.JSONResponse'
-            - properties:
-                data:
-                  $ref: '#/definitions/models.Author'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.JSONErrorResponse'
-      summary: Create author
-      tags:
-      - authors
-  /v1/author/{id}:
-    get:
-      consumes:
-      - application/json
-      description: get an author by id
-      parameters:
-      - description: Author ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/models.JSONResponse'
-            - properties:
-                data:
-                  $ref: '#/definitions/models.Author'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.JSONErrorResponse'
-      summary: get author by id
-      tags:
-      - authors
 swagger: "2.0"
