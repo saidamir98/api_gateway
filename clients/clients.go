@@ -11,6 +11,8 @@ type GrpcClients struct {
 	Author  blogpost.AuthorServiceClient
 	Article blogpost.ArticleServiceClient
 	Auth    blogpost.AuthServiceClient
+
+	conns []*grpc.ClientConn
 }
 
 func NewGrpcClients(cfg config.Config) (*GrpcClients, error) {
@@ -32,9 +34,18 @@ func NewGrpcClients(cfg config.Config) (*GrpcClients, error) {
 	}
 	auth := blogpost.NewAuthServiceClient(connAuth)
 
+	conns := make([]*grpc.ClientConn, 0)
 	return &GrpcClients{
 		Author:  author,
 		Article: article,
 		Auth:    auth,
+		conns:   append(conns, connAuthor, connArticle, connAuth),
 	}, nil
+}
+
+// Close ...
+func (c *GrpcClients) Close() {
+	for _, v := range c.conns {
+		v.Close()
+	}
 }

@@ -34,10 +34,11 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	defer grpcClients.Close()
 
 	h := handlers.NewHandler(cfg, grpcClients)
 
-	r.GET("/ping", MyCORSMiddleware(), h.AuthMiddleware(), func(c *gin.Context) {
+	r.GET("/ping", MyCORSMiddleware(), h.AuthMiddleware("*"), func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"message": "pong",
 		})
@@ -45,12 +46,15 @@ func main() {
 
 	v1 := r.Group("/v1")
 	{
-		v1.Use(MyCORSMiddleware(), h.AuthMiddleware())
-		v1.POST("/article", h.CreateArticle)
-		v1.GET("/article/:id", h.GetArticleByID)
-		v1.GET("/article", h.GetArticleList)
-		v1.PUT("/article", h.UpdateArticle)
-		v1.DELETE("/article/:id", h.DeleteArticle)
+		v1.Use(MyCORSMiddleware())
+		v1.POST("/login", h.Login)
+		v1.POST("/article", h.AuthMiddleware("*"), h.CreateArticle)
+		v1.GET("/article/:id", h.AuthMiddleware("*"), h.GetArticleByID)
+		v1.GET("/article", h.AuthMiddleware("*"), h.GetArticleList)
+		v1.PUT("/article", h.AuthMiddleware("*"), h.UpdateArticle)
+		v1.DELETE("/article/:id", h.AuthMiddleware("ADMIN"), h.DeleteArticle)
+
+		v1.GET("/my-articles", h.AuthMiddleware("*"), h.SearchArticleByMyUsername)
 
 		// v1.POST("/author", h.CreateAuthor)
 		// v1.GET("/author/:id", h.GetAuthorByID)
